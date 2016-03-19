@@ -26,11 +26,11 @@ script:
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   # Test to install role
-  - ansible-playbook tests/test.yml -i tests/inventory --connection=local
+  - ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
 
   # Test idempotency
   - >
-    ansible-playbook tests/test.yml -i tests/inventory --connection=local
+    ansible-playbook tests/test.yml -i tests/inventory --connection=local --sudo
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
