@@ -5,7 +5,6 @@
   with_items:
    - apache2
    - php5-gd
-   - libgd2-xpm
    - libgd2-xpm-dev
    - libapache2-mod-php5
 
