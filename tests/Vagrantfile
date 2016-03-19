@@ -21,9 +21,16 @@ Vagrant.configure(2) do |config|
   config.vm.define "ubuntu12" do |ubuntu12|
     ubuntu12.vm.box = "hashicorp/precise64"
 
+
     ubuntu12.vm.provision "shell", inline: <<-SHELL
       sudo apt-get update
+      sudo apt-get install -y software-properties-common python-software-properties git
+      sudo apt-add-repository -y ppa:ansible/ansible
+      sudo apt-get update
+      sudo apt-get install -y ansible
+      sudo echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
     SHELL
+    ubuntu12.vm.synced_folder "../", "/etc/ansible/roles/ansible-role-nagios"
   end
 
   config.vm.define "ubuntu14" do |ubuntu14|
