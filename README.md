@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/networklore/ansible-role-nagios.svg?branch=master)](https://travis-ci.org/networklore/ansible-role-nagios)
 Nagios
 ======
 
