@@ -1,0 +1,29 @@
+---
+
+- name: install apache
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items:
+   - apache2
+   - php5-gd
+   - libgd2-xpm
+   - libgd2-xpm-dev
+   - libapache2-mod-php5
+
+- name: Install Nagios prerequisites for Ubuntu
+  apt: pkg={{ item }} state=present
+  with_items:
+   - linux-headers-{{ ansible_kernel }}
+   - build-essential
+   - python-passlib
+
+- name: Install Plugin prerequisites for Debian
+  apt: pkg={{ item }} state=present
+  with_items:
+   - libssl-dev
+   - dnsutils
+   - fping
+   - libldap2-dev
+   - libpq-dev
+   - libradiusclient-ng-dev
+   - smbclient
+   - gawk
