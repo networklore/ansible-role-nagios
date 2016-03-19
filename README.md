@@ -18,6 +18,7 @@ Version specific:
     yum: name={{ ansible_env.HOME }}/nagios//epel-release-6-8.noarch.rpm state=present
     when: is_centos
 
+* Add tests to verify that the services are working
 
 Requirements
 ------------
