@@ -69,7 +69,7 @@
 - name: Make install-webconf
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf.d/nagios.conf
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Debian'
 
 - name: Make install-webconf
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf-available/nagios.conf
