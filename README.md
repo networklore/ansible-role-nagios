@@ -9,14 +9,7 @@ A brief description of the role goes here.
 TODO
 ----
 
-- name: Activate Apache cgi  on Ubuntu 14.04
-  file: src=/etc/apache2/mods-available/cgi.load dest=/etc/apache2/mods-enabled/cgi.load state=link owner=root group=root
-  when: is_ubuntu
-
-Version specific:
-  - name: Downloading and enable the EPEL repository definitions.
-    yum: name={{ ansible_env.HOME }}/nagios//epel-release-6-8.noarch.rpm state=present
-    when: is_centos
+* Segment playbook
 
 * Add tests to verify that the services are working
 
