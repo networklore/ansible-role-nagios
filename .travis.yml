@@ -12,11 +12,11 @@ env:
     init: /sbin/init
     run_opts: ""
     playbook: test.yml
-  #- distribution: ubuntu
-  #  version: 12.04
-  #  init: /sbin/init
-  #  run_opts: ""
-  #  playbook: test.yml
+  - distribution: ubuntu
+    version: 12.04
+    init: /sbin/init
+    run_opts: ""
+    playbook: test.yml
 
 services:
   - docker
