@@ -94,7 +94,8 @@
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
 
 - name: Set htpasswd for nagiosadmin
-  htpasswd: path=/usr/local/nagios/etc/htpasswd.users name=nagiosadmin password={{ nagiosadminpass }} state=present
+  htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
+  with_items: "{{ nagios_users }}"
 
 - name: Unpack Plugin source files
   shell: cd {{ ansible_env.HOME }}/nagios && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ ansible_env['HOME'] }}/nagios/{{ pluginssrc }}

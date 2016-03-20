@@ -14,5 +14,7 @@ pluginssrc: nagios-plugins-2.1.1
 nrpeurl: http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
 nrpesrc: nrpe-2.15
 
-# This will be the password for nagiosadmin which you use to login to your nagios site
-nagiosadminpass: Password1change
+# This is a list of users allowed to login to the nagios web frontend
+nagios_users:
+  - user: nagiosadmin
+    pass: Password1change
