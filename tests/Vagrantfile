@@ -58,6 +58,7 @@ Vagrant.configure(2) do |config|
       sudo echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
     SHELL
     ubuntu12.vm.synced_folder "../", "/etc/ansible/roles/ansible-role-nagios", :mount_options => ["ro"]
+    ubuntu12.vm.network "forwarded_port", guest: 80, host: 8012
   end
 
   config.vm.define "ubuntu14" do |ubuntu14|
