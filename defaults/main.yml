@@ -2,8 +2,8 @@
 # defaults file for nagios
 
 # Define the download url for the Nagios Core source files and the version you want to use.
-nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.0.8.tar.gz
-nagiossrc: nagios-4.0.8
+nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz
+nagiossrc: nagios-4.1.1
 
 # Define the download url for the Plugins and the version you want to use.
 pluginsurl: http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
