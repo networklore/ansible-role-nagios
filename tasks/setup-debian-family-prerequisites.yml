@@ -7,6 +7,7 @@
    - php5-gd
    - libgd2-xpm-dev
    - libapache2-mod-php5
+   - unzip
 
 - name: Install Nagios prerequisites for Ubuntu
   apt: pkg={{ item }} state=present

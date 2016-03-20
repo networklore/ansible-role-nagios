@@ -90,6 +90,21 @@
   notify: restart apache
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
+- name: Enable CGI
+  apache2_module:
+    name: cgi
+    state: present
+  notify: restart apache
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+
+- name: Enable version
+  apache2_module:
+    name: version
+    state: present
+  notify: restart apache
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
+
+
 - name: Make install-init
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
 

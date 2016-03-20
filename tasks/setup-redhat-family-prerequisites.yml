@@ -29,6 +29,7 @@
    - perl-devel
    - wget
    - python-passlib
+   - unzip
 
 - name: Install plugin prerequisites for CentOS
   yum: pkg={{ item }} state=present
