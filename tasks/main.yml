@@ -42,9 +42,13 @@
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && ./configure --with-command-group=nagcmd creates={{ ansible_env['HOME'] }}/nagios/{{ nagiossrc }}/Makefile
   when: ansible_distribution == 'Debian'
 
-- name: Configure
+- name: Configure for Ubuntu 12.04
+  shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && ./configure --with-command-group=nagcmd creates={{ ansible_env['HOME'] }}/nagios/{{ nagiossrc }}/Makefile
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
+
+- name: Configure for Ubuntu 14.04
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && ./configure --with-command-group=nagcmd -with-httpd_conf=/etc/apache2/conf-available creates={{ ansible_env['HOME'] }}/nagios/{{ nagiossrc }}/Makefile
-  when: ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 - name: Make all
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make all creates={{ ansible_env['HOME'] }}/nagios/{{ nagiossrc }}/base/nagios
@@ -71,14 +75,20 @@
   notify: restart apache
   when: ansible_distribution == 'Debian'
 
-- name: Make install-webconf
+- name: Make install-webconf Ubuntu 12.04
+  shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf.d/nagios.conf
+  notify: restart apache
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
+
+- name: Make install-webconf Ubuntu 14.04
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf-available/nagios.conf
-  when: ansible_distribution == 'Ubuntu'
+  notify: restart apache
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 - name: Activate Nagios site on Ubuntu 14.04
   file: src=/etc/apache2/conf-available/nagios.conf dest=/etc/apache2/conf-enabled/nagios.conf state=link owner=root group=root
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 - name: Make install-init
   shell: cd {{ ansible_env.HOME }}/nagios/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
