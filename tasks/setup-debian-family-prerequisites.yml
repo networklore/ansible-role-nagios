@@ -11,7 +11,7 @@
 - name: Install Nagios prerequisites for Ubuntu
   apt: pkg={{ item }} state=present
   with_items:
-   - linux-headers-{{ ansible_kernel }}
+   #- linux-headers-{{ ansible_kernel }}
    - build-essential
    - python-passlib
 
