@@ -4,7 +4,7 @@
   get_url: url={{ pluginsurl }} dest={{ download_dir }}/{{ pluginssrc }}.tar.gz
 
 - name: Unpack Plugin source files
-  shell: cd {{ download_dir }} && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ download_dir }}{{ pluginssrc }}
+  shell: cd {{ download_dir }} && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ download_dir }}/{{ pluginssrc }}
 
 - name: Configure Plugins
   shell: cd {{ download_dir }}/{{ pluginssrc }} && ./configure --with-nagios-user={{ monitoring_user }} --with-nagios-group=nagios --with-openssl=/usr/bin/openssl creates={{ download_dir }}/{{ pluginssrc }}/Makefile
