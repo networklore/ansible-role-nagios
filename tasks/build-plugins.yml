@@ -1,0 +1,16 @@
+---
+
+- name: Get Plugins
+  get_url: url={{ pluginsurl }} dest={{ ansible_env.HOME }}/nagios/{{ pluginssrc }}.tar.gz
+
+- name: Unpack Plugin source files
+  shell: cd {{ ansible_env.HOME }}/nagios && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ ansible_env['HOME'] }}/nagios/{{ pluginssrc }}
+
+- name: Configure Plugins
+  shell: cd {{ ansible_env.HOME }}/nagios/{{ pluginssrc }} && ./configure --with-nagios-user={{ monitoring_user }} --with-nagios-group=nagios --with-openssl=/usr/bin/openssl creates={{ ansible_env['HOME'] }}/nagios/{{ pluginssrc }}/Makefile
+
+- name: Make Plugins
+  shell: cd {{ ansible_env.HOME }}/nagios/{{ pluginssrc }} && make creates={{ ansible_env['HOME'] }}/nagios/{{ pluginssrc }}/plugins/check_ping
+
+- name: Make Install Plugins
+  shell: cd {{ ansible_env.HOME }}/nagios/{{ pluginssrc }} && make install creates=/usr/local/nagios/libexec/check_ping
