@@ -13,6 +13,8 @@ TODO
 
 * Add tests to verify that the services are working
 
+* Check EPEL for CentOS 7
+
 Requirements
 ------------
 
