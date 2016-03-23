@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/networklore/ansible-role-nagios.svg?branch=master)](https://travis-ci.org/networklore/ansible-role-nagios)
 
-This role is a work in progress. Don't use yet.
-
 Installs Nagios 4.1.1 from source. Once Nagios is installed you can login to http://ip-address/nagios/ using the username and password you configure in the nagios_users variable.
 
 ## Requirements
