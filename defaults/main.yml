@@ -1,20 +1,24 @@
 ---
 # defaults file for nagios
 
+# Directory that will be used as the location for the downloads§
+download_dir: "{{ ansible_env.HOME }}/nagios"
+
+
 # Define the download url for the Nagios Core source files and the version you want to use.
 nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz
+
+# This is the directory where the Nagios source files will be placed, this should be
+# the directory which is created when the download file is unpacked when runnint
+# tar -xzvf nagios-4.1.1.tar.gz
 nagiossrc: nagios-4.1.1
 
 # Define the download url for the Plugins and the version you want to use.
 pluginsurl: http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
+# This is the directory where the Plugin source files will be placed, this should be
+# the directory which is created when the download file is unpacked when runnint
+# tar -xzvf nagios-plugins-2.1.1.tar.gz
 pluginssrc: nagios-plugins-2.1.1
-
-# This NRPE package is only used for the plugin, as the nrpe plugin on some distributions
-# require the distributions Nagios package to be installed.
-# nrpeurl: http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
-# nrpesrc: nrpe-2.15
-
-download_dir: "{{ ansible_env.HOME }}/nagios"
 
 monitoring_user: nagios
 monitoring_command_group: nagcmd
