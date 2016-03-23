@@ -14,7 +14,7 @@ galaxy_info:
   # - GPLv3
   # - Apache
   # - CC-BY
-  license: license (GPLv2, CC-BY, etc)
+  license: BSD
 
   min_ansible_version: 1.2
 
@@ -156,7 +156,8 @@ galaxy_info:
   #  - squeeze
   #  - wheezy
 
-  galaxy_tags: []
+  galaxy_tags:
+    - monitoring
     # List tags for your role here, one per line. A tag is
     # a keyword that describes and categorizes the role.
     # Users find roles by searching for tags. Be sure to
