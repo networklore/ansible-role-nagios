@@ -6,21 +6,8 @@
 - name: Unpack Nagios source files
   shell: cd {{ download_dir }} && tar -xzvf {{ nagiossrc }}.tar.gz creates={{ download_dir }}/{{ nagiossrc }}
 
-- name: Configure
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
-  when: ansible_distribution == 'CentOS'
-
-- name: Configure
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
-  when: ansible_distribution == 'Debian'
-
-- name: Configure for Ubuntu 12.04
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
-
-- name: Configure for Ubuntu 14.04
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf=/etc/apache2/conf-available creates={{ download_dir }}/{{ nagiossrc }}/Makefile
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+- name: ./configure
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
 - name: Make all
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
@@ -38,29 +25,13 @@
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-devel creates=/usr/local/nagios/include/nagios/nagios.h
 
 - name: Make install-webconf
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates=/etc/httpd/conf.d/nagios.conf
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates={{ with_httpd_conf }}/nagios.conf
   notify: restart apache
-  when: ansible_distribution == 'CentOS'
-
-- name: Make install-webconf
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf.d/nagios.conf
-  notify: restart apache
-  when: ansible_distribution == 'Debian'
-
-- name: Make install-webconf Ubuntu 12.04
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf.d/nagios.conf
-  notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
-
-- name: Make install-webconf Ubuntu 14.04
-  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates=/etc/apache2/conf-available/nagios.conf
-  notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 - name: Make install-init
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
 
-- name: Set htpasswd for nagiosadmin
+- name: Set htpasswd for gui users
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
   with_items: "{{ nagios_users }}"
 
