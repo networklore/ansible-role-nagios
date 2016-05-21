@@ -55,7 +55,7 @@
 
 - name: Check if SELinux is running in enforcing mode and change access
   set_fact: check_selinux=true
-  when: ansible_selinux != False and 'mode' ansible_selinux.keys()
+  when: ansible_selinux != False and 'mode' in ansible_selinux.keys()
 
 - name: Check if SELinux is running in enforcing mode and change access
   file: path=/usr/local/nagios setype=httpd_sys_content_t state=directory recurse=yes
