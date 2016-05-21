@@ -16,7 +16,7 @@
    - build-essential
    - python-passlib
 
-- name: Install Plugin prerequisites for Debian
+- name: Install Plugin prerequisites for Debian family
   apt: pkg={{ item }} state=present
   with_items:
    - libssl-dev
@@ -24,6 +24,11 @@
    - fping
    - libldap2-dev
    - libpq-dev
-   - libradiusclient-ng-dev
    - smbclient
    - gawk
+
+- name: Install Plugin prerequisites for Ubuntu
+  apt: pkg={{ item }} state=present
+  with_items:
+   - libradiusclient-ng-dev
+  when: ansible_distribution == 'Ubuntu'
