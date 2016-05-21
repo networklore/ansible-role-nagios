@@ -45,14 +45,27 @@
   notify: restart apache
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
 
-
 - name: Fix Nagios startup on Debian
   shell: cd /etc/rc2.d && ln -s ../init.d/nagios S18nagios creates=/etc/rc2.d/S18nagios
   when: ansible_distribution == 'Debian'
 
+- name: Default facts for selinux
+  set_fact:
+    check_selinux: false
+    current_selinux_mode: false
+
+- name: Check if SELinux is running and has the mode key
+  set_fact: check_selinux=true
+  when: ansible_selinux != False and 'mode' in ansible_selinux.keys()
+
+- name: Store selinux mode in current_selinux_mode variable
+  set_fact:
+    current_selinux_mode: '{{ ansible_selinux.mode }}'
+  when: check_selinux
+
 - name: Check if SELinux is running in enforcing mode and change access
   file: path=/usr/local/nagios setype=httpd_sys_content_t state=directory recurse=yes
-  when: ansible_selinux != False and ansible_selinux.mode == "enforcing"
+  when: current_selinux_mode == 'enforcing'
 
 - name: http service state
   service: name={{ apache_service }} state=started enabled=yes
