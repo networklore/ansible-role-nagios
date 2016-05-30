@@ -15,7 +15,12 @@
    #- linux-headers-{{ ansible_kernel }}
    - build-essential
    - python-passlib
-
+   
+- name: Remove Nagios3 for Ubuntu
+  apt: pkg={{ item }} state=absent
+  with_items:
+   - nagios3
+   
 - name: Install Plugin prerequisites for Debian family
   apt: pkg={{ item }} state=present
   with_items:

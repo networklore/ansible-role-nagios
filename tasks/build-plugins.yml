@@ -2,6 +2,7 @@
 
 - name: Get Plugins
   get_url: url={{ pluginsurl }} dest={{ download_dir }}/{{ pluginssrc }}.tar.gz
+  environment: "{{ proxy_env }}"
 
 - name: Unpack Plugin source files
   shell: cd {{ download_dir }} && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ download_dir }}/{{ pluginssrc }}
