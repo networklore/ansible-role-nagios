@@ -1,7 +1,7 @@
 ---
 
 - name: GET Nagios
-  get_url: url={{ nagiosurl }} dest={{ download_dir }}/{{ nagiossrc }}.tar.
+  get_url: url={{ nagiosurl }} dest={{ download_dir }}/{{ nagiossrc }}.tar.gz
   environment: "{{ proxy_env }}"
 
 - name: Unpack Nagios source files
