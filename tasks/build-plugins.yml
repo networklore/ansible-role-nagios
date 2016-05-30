@@ -2,16 +2,20 @@
 
 - name: Get Plugins
   get_url: url={{ pluginsurl }} dest={{ download_dir }}/{{ pluginssrc }}.tar.gz
-  environment: "{{ proxy_env }}"
+  register: plugins_downloaded
 
-- name: Unpack Plugin source files
-  shell: cd {{ download_dir }} && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ download_dir }}/{{ pluginssrc }}
+- block:
+  
+  - name: Unpack Plugin source files
+    shell: cd {{ download_dir }} && tar -xzvf {{ pluginssrc }}.tar.gz creates={{ download_dir }}/{{ pluginssrc }}
 
-- name: Configure Plugins
-  shell: cd {{ download_dir }}/{{ pluginssrc }} && ./configure --with-nagios-user={{ monitoring_user }} --with-nagios-group=nagios --with-openssl=/usr/bin/openssl creates={{ download_dir }}/{{ pluginssrc }}/Makefile
+  - name: Configure Plugins
+    shell: cd {{ download_dir }}/{{ pluginssrc }} && ./configure --with-nagios-user={{ monitoring_user }} --with-nagios-group=nagios --with-openssl=/usr/bin/openssl creates={{ download_dir }}/{{ pluginssrc }}/Makefile
 
-- name: Make Plugins
-  shell: cd {{ download_dir }}/{{ pluginssrc }} && make creates={{ download_dir }}/{{ pluginssrc }}/plugins/check_ping
+  - name: Make Plugins
+    shell: cd {{ download_dir }}/{{ pluginssrc }} && make creates={{ download_dir }}/{{ pluginssrc }}/plugins/check_ping
 
-- name: Make Install Plugins
-  shell: cd {{ download_dir }}/{{ pluginssrc }} && make install creates=/usr/local/nagios/libexec/check_ping
+  - name: Make Install Plugins
+    shell: cd {{ download_dir }}/{{ pluginssrc }} && make install creates=/usr/local/nagios/libexec/check_ping
+  
+  when: plugins_downloaded.changed
