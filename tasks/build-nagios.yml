@@ -2,42 +2,35 @@
 
 - name: GET Nagios
   get_url: url={{ nagiosurl }} dest={{ download_dir }}/{{ nagiossrc }}.tar.gz
-  register: nagios_downloaded
 
-# Only run when new version is downloaded to add some idempotence
+- name: Unpack Nagios source files
+  shell: cd {{ download_dir }} && tar -xzvf {{ nagiossrc }}.tar.gz creates={{ download_dir }}/{{ nagiossrc }}
 
-- block: 
+- name: ./configure
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
-  - name: Unpack Nagios source files
-    shell: cd {{ download_dir }} && tar -xzvf {{ nagiossrc }}.tar.gz creates={{ download_dir }}/{{ nagiossrc }}
+- name: Make all
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
 
-  - name: ./configure
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
+- name: Make install
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install creates=/usr/local/nagios/bin/nagios
 
-  - name: Make all
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make all creates={{ download_dir }}/{{ nagiossrc }}/base/nagios
+- name: Make install-config
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-config creates=/usr/local/nagios/etc/nagios.cfg
 
-  - name: Make install
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install creates=/usr/local/nagios/bin/nagios
+- name: Make install-commandmode
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-commandmode creates=/usr/local/nagios/var/rw
 
-  - name: Make install-config
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-config creates=/usr/local/nagios/etc/nagios.cfg
+- name: Make install-devel
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-devel creates=/usr/local/nagios/include/nagios/nagios.h
 
-  - name: Make install-commandmode
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-commandmode creates=/usr/local/nagios/var/rw
+- name: Make install-webconf
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates={{ with_httpd_conf }}/nagios.conf
+  notify: restart apache
 
-  - name: Make install-devel
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-devel creates=/usr/local/nagios/include/nagios/nagios.h
-
-  - name: Make install-webconf
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-webconf creates={{ with_httpd_conf }}/nagios.conf
-    notify: restart apache
-
-  - name: Make install-init
-    shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
+- name: Make install-init
+  shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
     
-  when: nagios_downloaded.changed
-
     
 - name: Set htpasswd for gui users
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
