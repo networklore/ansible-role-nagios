@@ -6,15 +6,13 @@ download_dir: "{{ ansible_env.HOME }}/nagios"
 
 
 # Define the download url for the Nagios Core source files and the version you want to use.
-nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.0.8.tar.gz
+nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz
 
 # This is the directory where the Nagios source files will be placed, this should be
 # the directory which is created when the download file is unpacked when runnint
 # tar -xzvf nagios-4.1.1.tar.gz
-# Due to some problem with livestatus we use now nagios-4.0.8.tar.gz
 # code checked http://mathias-kettner.com/check_mk_download_source.html for version of mk-livestatus 1.2.8
-# It has 4.0.2 nagios4 files only, but we don't have url for that version found.
-nagiossrc: nagios-4.0.8
+nagiossrc: nagios-4.1.1
 
 # Define the download url for the Plugins and the version you want to use.
 pluginsurl: http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
