@@ -12,7 +12,7 @@ nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.0.8.
 # the directory which is created when the download file is unpacked when runnint
 # tar -xzvf nagios-4.1.1.tar.gz
 # Due to some problem with livestatus we use now nagios-4.0.8.tar.gz
-nagiossrc: nagios-4.0.8.tar.gz
+nagiossrc: nagios-4.0.8
 
 # Define the download url for the Plugins and the version you want to use.
 pluginsurl: http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
