@@ -20,6 +20,8 @@
   apt: pkg={{ item }} state=absent
   with_items:
    - nagios3
+   - nagios3-core
+   - check-mk-livestatus
    
 - name: Install Plugin prerequisites for Debian family
   apt: pkg={{ item }} state=present
