@@ -1,7 +1,11 @@
 ---
 
+- name: Update apt cache
+  apt: update_cache=yes
+  changed_when: False
+
 - name: install apache
-  apt: pkg={{ item }} state=present update_cache=yes
+  apt: pkg={{ item }} state=present
   with_items:
    - apache2
    - php5-gd
