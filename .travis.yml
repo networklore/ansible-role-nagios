@@ -42,7 +42,7 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook} --syntax-check'
 
   # Ansible role  check.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook}'
+  - 'sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook}'
 
   # Test role idempotence.
   - >
