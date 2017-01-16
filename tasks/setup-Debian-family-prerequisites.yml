@@ -16,12 +16,13 @@
    - build-essential
    - python-passlib
    
-- name: Remove Nagios3 for Ubuntu
+- name: setup-Debian | Remove Nagios3 and check-mk-livestatus for Ubuntu
   apt: pkg={{ item }} state=absent
   with_items:
    - nagios3
    - nagios3-core
    - check-mk-livestatus
+  when: ansible-role-nagios-remove-packages
    
 - name: Install Plugin prerequisites for Debian family
   apt: pkg={{ item }} state=present

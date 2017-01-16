@@ -28,3 +28,6 @@ monitoring_command_group: nagcmd
 nagios_users:
   - user: nagiosadmin
     pass: Password1change
+
+# This option will be used if you want to uninstall debian packages for nagios and check-mk-livestatus
+ansible-role-nagios-remove-packages: no
