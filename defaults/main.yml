@@ -11,6 +11,7 @@ nagiosurl: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.
 # This is the directory where the Nagios source files will be placed, this should be
 # the directory which is created when the download file is unpacked when runnint
 # tar -xzvf nagios-4.1.1.tar.gz
+# code checked http://mathias-kettner.com/check_mk_download_source.html for version of mk-livestatus 1.2.8
 nagiossrc: nagios-4.1.1
 
 # Define the download url for the Plugins and the version you want to use.
@@ -27,3 +28,6 @@ monitoring_command_group: nagcmd
 nagios_users:
   - user: nagiosadmin
     pass: Password1change
+
+# This option will be used if you want to uninstall debian packages for nagios and check-mk-livestatus
+ansible-role-nagios-remove-packages: no
