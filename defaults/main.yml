@@ -30,4 +30,4 @@ nagios_users:
     pass: Password1change
 
 # This option will be used if you want to uninstall debian packages for nagios and check-mk-livestatus
-ansible-role-nagios-remove-packages: no
+ansible_role_nagios_remove_packages: false

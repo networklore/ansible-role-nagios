@@ -30,8 +30,7 @@
 
 - name: Make install-init
   shell: cd {{ download_dir }}/{{ nagiossrc }} && make install-init creates=/etc/init.d/nagios
-    
-    
+
 - name: Set htpasswd for gui users
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
   with_items: "{{ nagios_users }}"
