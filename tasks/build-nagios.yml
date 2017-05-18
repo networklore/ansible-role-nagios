@@ -6,6 +6,49 @@
 - name: Unpack Nagios source files
   shell: cd {{ download_dir }} && tar -xzvf {{ nagiossrc }}.tar.gz creates={{ download_dir }}/{{ nagiossrc }}
 
+- name: Set upgrade as not required by default
+  set_fact:
+    nagios_upgrade_required: false
+
+# https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/upgrading.html
+- name: check if nagios main.php exists
+  stat: path=/usr/local/nagios/share/main.php
+  register: nagios_mainphp_file
+
+- block: 
+
+  - name: read nagios installed version
+    shell: head /usr/local/nagios/share/main.php | grep "this_version" | cut -d"=" -f 2 | tr --delete ";" | tr --delete "'" | xargs echo -n
+    changed_when: false
+    register: cmd_nagios_version
+    tags:
+      - skip_ansible_lint
+    check_mode: no
+  
+  - name: Check if upgrade is required
+    set_fact:
+      nagios_upgrade_required: true
+    when: cmd_nagios_version.stdout != nagios_version
+  
+  when: nagios_mainphp_file.stat.exists
+
+- name: Clean files before upgrade
+  file: 
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/usr/local/nagios/share/main.html"
+    - "/usr/local/nagios/share/index.html"
+    - "/usr/local/nagios/share/side.html"
+    - "{{ with_httpd_conf }}/nagios.conf"
+    - "/usr/local/nagios/bin/nagios"
+    - "/usr/local/nagios/etc/nagios.cfg"
+    - "/usr/local/nagios/var/rw"
+    - "/usr/local/nagios/include/nagios/nagios.h"
+    - "/etc/init.d/nagios"
+  when: nagios_upgrade_required
+  notify: restart nagios
+
 - name: ./configure
   shell: cd {{ download_dir }}/{{ nagiossrc }} && ./configure --with-command-group={{ monitoring_command_group }} -with-httpd_conf={{ with_httpd_conf }} --with-nagios-user={{ monitoring_user }} creates={{ download_dir }}/{{ nagiossrc }}/Makefile
 
