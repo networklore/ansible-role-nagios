@@ -58,6 +58,14 @@ Install Nagios and setup the password for your nagiosadmin user.
       - user: nagiosadmin
         pass: S3cre7Passw0rd
 
+## Upgrading
+
+The role has automatic upgrade when you change the version with var: 
+
+    nagios_version: 4.3.2
+
+But the upgrade requires to remove some old files to, check [build-nagios.yml](tasks/build-nagios.yml) for details.
+
 ## License
 
 BSD
