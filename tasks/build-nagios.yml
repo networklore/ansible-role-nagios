@@ -32,6 +32,24 @@
   
   when: nagios_mainphp_file.stat.exists
 
+- name: backup files before clean
+  copy: 
+    src: "{{ item }}"
+    dest: "{{ item }}.bkp"
+    force: yes
+  with_items:
+    - "/usr/local/nagios/share/main.html"
+    - "/usr/local/nagios/share/index.html"
+    - "/usr/local/nagios/share/side.html"
+    - "{{ with_httpd_conf }}/nagios.conf"
+    - "/usr/local/nagios/bin/nagios"
+    - "/usr/local/nagios/etc/nagios.cfg"
+    - "/usr/local/nagios/var/rw"
+    - "/usr/local/nagios/include/nagios/nagios.h"
+    - "/etc/init.d/nagios"
+  when: nagios_upgrade_required
+  failed_when: false
+
 - name: Clean files before upgrade
   file: 
     path: "{{ item }}"
