@@ -27,6 +27,10 @@ docker:
         ansible_groups:
           - group_master
 
+      - name: ansible-debian8
+        image: debian
+        image_version: '9'
+
       # In docker cannot be tested with centos 7 due to https://github.com/ansible/ansible-modules-core/issues/593
       - name: ansible-centos7
         image: centos/systemd

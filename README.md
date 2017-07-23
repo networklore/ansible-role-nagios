@@ -68,17 +68,17 @@ But the upgrade requires to remove some old files to, check [build-nagios.yml](t
 
 ## Supported versions
 
+Tested with molecule: 
+
+    ansible-centos7            : ok=33   changed=0    unreachable=0    failed=0
+    ansible-debian8            : ok=33   changed=21   unreachable=0    failed=0
+    ansible-trusty             : ok=35   changed=22   unreachable=0    failed=0
+    ansible-ubuntu-latest      : ok=4    changed=0    unreachable=0    failed=1   
+
 Actually ubuntu/latest is failing in molecule tests: 
 
 ```shell
 failed: [ansible-ubuntu-latest] (item=[u'apache2', u'php5-gd', u'libgd2-xpm-dev', u'libapache2-mod-php5', u'unzip']) => {"failed": true, "item": ["apache2", "php5-gd", "libgd2-xpm-dev", "libapache2-mod-php5", "unzip"], "msg": "No package matching 'php5-gd' is available"}
-```
-
-Error en molecule ubuntu/trusty y debian8
-
-```
-fatal: [ansible-trusty]: FAILED! => {"changed": false, "failed": true, "msg": "Failed to validate the SSL certificate for assets.nagios.com:443. Make sure your managed systems have a valid CA certificate installed. If the website serving the url uses SNI you need python >= 2.7.9 on your managed machine or you can install the `urllib3`, `pyOpenSSL`, `ndg-httpsclient`, and `pyasn1` python modules to perform SNI verification in python >= 2.6. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible. The exception msg was: [Errno 1] _ssl.c:510: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed."}
-fatal: [ansible-debian8]: FAILED! => {"changed": false, "failed": true, "msg": "Failed to validate the SSL certificate for assets.nagios.com:443. Make sure your managed systems have a valid CA certificate installed. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible. The exception msg was: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:581)."}
 ```
 
 
