@@ -62,7 +62,7 @@ script:
   # Verify that we can see the web frontend
   - >
     sudo docker exec "$(cat ${container_id})" curl -s http://nagiosadmin:Password1change@127.0.0.1/nagios/cgi-bin/statusjson.cgi?query=programstatus 2>/dev/null
-    | grep -q '"version": "4.1.1"'
+    | grep -q '"version": "4.3.2"'
     && (echo 'Web frontend nagios test: pass' && exit 0)
     || (echo 'Web frontend nagios test: fail' && exit 1)
 

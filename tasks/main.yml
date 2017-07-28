@@ -12,7 +12,6 @@
 - include: setup-Debian-family-prerequisites.yml
   when: ansible_os_family == 'Debian'
 
-
 - name: Create nagcmd group
   group: name={{ monitoring_command_group }} state=present
 
