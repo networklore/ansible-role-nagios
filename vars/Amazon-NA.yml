@@ -1,0 +1,4 @@
+---
+apache_service: httpd
+apache_user: apache
+with_httpd_conf: /etc/httpd/conf.d
