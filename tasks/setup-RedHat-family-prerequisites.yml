@@ -21,19 +21,24 @@
    - libselinux-python
 
 - name: Install Nagios prerequisites for CentOS
-  yum: pkg={{ item }} state=present
-  with_items:
-   - gcc
-   - glibc
-   - glibc-common
-   - gd
-   - gd-devel
-   - make
-   - perl
-   - perl-devel
-   - wget
-   - python-passlib
-   - unzip
+  yum:
+    name: "@Development tools"
+    state: present
+
+# - name: Install Nagios prerequisites for CentOS
+#   yum: pkg={{ item }} state=present
+#   with_items:
+#    - gcc
+#    - glibc
+#    - glibc-common
+#    - gd
+#    - gd-devel
+#    - make
+#    - perl
+#    - perl-devel
+#    - wget
+#    - python-passlib
+#    - unzip
 
 - name: Install plugin prerequisites for CentOS
   yum: pkg={{ item }} state=present
