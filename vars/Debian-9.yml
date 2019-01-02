@@ -1,11 +1,6 @@
 ---
 with_httpd_conf: /etc/apache2/conf-available
 
-php_packages:
-   - php 
-   - libapache2-mod-php 
-   - php-mcrypt 
-   - php-mysql
-   - libgd-dev
+php_packages: [ 'php', 'libapache2-mod-php', 'php-mcrypt', 'php-mysql', 'libgd-dev' ]
 
 nagios_plugins_deps: ['libradcli-dev']
