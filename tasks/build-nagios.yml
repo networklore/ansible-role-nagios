@@ -93,5 +93,10 @@
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
   with_items: "{{ nagios_users }}"
 
+- name: Workaround since service module fails for this version of nagios
+  raw: service nagios start
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+  changed_when: False
+
 - name: Ensure Nagios is started
   service: name=nagios state=started enabled=yes

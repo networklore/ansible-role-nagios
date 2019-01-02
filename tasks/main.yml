@@ -38,9 +38,10 @@
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 - name: Enable version
-  apache2_module:
-    name: version
-    state: present
+  file:
+    src: ../mods-available/version.load
+    dest: /etc/apache2/mods-enabled/version.load
+    state: link
   notify: restart apache
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
 
@@ -68,3 +69,8 @@
 
 - name: http service state
   service: name={{ apache_service }} state=started enabled=yes
+
+- name: ensure nagios is started
+  service:
+    name: "{{ nagios_service }}"
+    state: started

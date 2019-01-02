@@ -121,7 +121,7 @@ galaxy_info:
   #  - maverick
   #  - natty
   #  - oneiric
-    - precise
+  #  - precise
   #  - quantal
   #  - raring
   #  - saucy
@@ -129,7 +129,8 @@ galaxy_info:
   #  - utopic
   #  - vivid
   #  - wily
-  #  - xenial
+    - xenial
+    - bionic
   #- name: SLES
   #  versions:
   #  - all
@@ -151,10 +152,11 @@ galaxy_info:
   #  versions:
   #  - all
   #  - etch
-  #  - jessie
+    - jessie
   #  - lenny
   #  - squeeze
-  #  - wheezy
+    - wheezy
+    - stretch
 
   galaxy_tags:
     - monitoring
