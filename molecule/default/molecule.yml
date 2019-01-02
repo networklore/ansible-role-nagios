@@ -18,6 +18,17 @@ platforms:
     groups:
       - group1
 
+  - name: ansible_test-01_2
+    image: paulfantom/ubuntu-molecule:18.04
+    #privileged: True
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN    
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"        
+    groups:
+      - group1
+
   - name: ansible_test-02
     image: ubuntu:trusty     
     groups:

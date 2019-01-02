@@ -9,8 +9,10 @@
     update_cache: yes
 
 - name: install php
-  apt: pkg={{ item }} state=present update_cache=yes
-  with_items: "{{ php_packages }}"
+  apt: 
+    pkg: "{{ php_packages }}" 
+    state: present 
+    update_cache: yes
 
 - name: Install Nagios prerequisites for Ubuntu
   apt: 
