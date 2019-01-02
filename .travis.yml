@@ -1,73 +1,23 @@
----
+# http://www.jeffgeerling.com/blog/testing-ansible-roles-travis-ci-github
 sudo: required
-
-env:
-  - distribution: centos
-    version: 6
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
-  - distribution: centos
-    version: 7
-    init: /usr/lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    playbook: test.yml
-  - distribution: ubuntu
-    version: 14.04
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
-  - distribution: ubuntu
-    version: 12.04
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
-
+language: python
 services:
   - docker
-
 before_install:
-  # Pull container
-  - 'sudo docker pull ${distribution}:${version}'
-  # Customize container
-  - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
+  - sudo apt-get -qq update
+  #- docker build --tag molecule_local/fedora-rawhide2:latest -f molecule/default/fedorar/Dockerfile molecule/default/fedorar
+
+install:
+  - sudo apt-get install -y python-pip libssl-dev libffi-dev
+  - pip install molecule
+  - pip install docker-py
+    #- ansible-galaxy install -r requirements.yml
 
 script:
-  - container_id=$(mktemp)
-
-  # Run container in detached state
-  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/ansible-role-nagios:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
-
-  # Ansible syntax check.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook} --syntax-check'
-
-  # Ansible role  check.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook}'
-
-  # Test role idempotence.
-  - >
-    sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/ansible-role-nagios/tests/${playbook}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
-
-  # Test Nagios server use running.
-  - >
-    sudo docker exec "$(cat ${container_id})" service nagios status
-    | grep -q 'nagios.*running'
-    && (echo 'Service nagios test: pass' && exit 0)
-    || (echo 'Service nagios test: fail' && exit 1)
-
-
-  # Verify that we can see the web frontend
-  - >
-    sudo docker exec "$(cat ${container_id})" curl -s http://nagiosadmin:Password1change@127.0.0.1/nagios/cgi-bin/statusjson.cgi?query=programstatus 2>/dev/null
-    | grep -q '"version": "4.3.2"'
-    && (echo 'Web frontend nagios test: pass' && exit 0)
-    || (echo 'Web frontend nagios test: fail' && exit 1)
-
-  # Clean up
-  - sudo docker stop "$(cat ${container_id})"
+  - molecule --debug create
+  - molecule converge
+  - molecule syntax
+  #- molecule idempotence
 
 notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
