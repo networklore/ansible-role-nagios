@@ -68,3 +68,8 @@
 
 - name: http service state
   service: name={{ apache_service }} state=started enabled=yes
+
+- name: ensure nagios is started
+  service:
+    name: "{{ nagios_service }}"
+    state: started

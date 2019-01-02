@@ -31,3 +31,5 @@ nagios_users:
 
 # This option will be used if you want to uninstall debian packages for nagios and check-mk-livestatus
 ansible_role_nagios_remove_packages: false
+
+nagios_service: nagios
