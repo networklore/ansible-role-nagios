@@ -1,13 +1,17 @@
 ---
 
+# https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Debian
+
 - name: install apache
   apt: pkg={{ item }} state=present update_cache=yes
   with_items:
    - apache2
-   - php5-gd
-   - libgd2-xpm-dev
-   - libapache2-mod-php5
+   - openssl
    - unzip
+
+- name: install php
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items: "{{ php_packages }}"
 
 - name: Install Nagios prerequisites for Ubuntu
   apt: pkg={{ item }} state=present
@@ -35,13 +39,14 @@
    - smbclient
    - gawk
 
+# fix SSL error when using ansible module get_url https://github.com/ansible/ansible/issues/23642
 - name: Install ansible prerequisites for Debian family
-  apt: pkg={{ item }} state=present
-  with_items:
-   - python-urllib3 # fix SSL error when using ansible module get_url https://github.com/ansible/ansible/issues/23642
+  apt: 
+    pkg: ['python-urllib3']
+    state: present 
 
 - name: Install Plugin prerequisites for Ubuntu
-  apt: pkg={{ item }} state=present
-  with_items:
-   - libradiusclient-ng-dev
+  apt: 
+    pkg: ['libradiusclient-ng-dev'] 
+    state: present
   when: ansible_distribution == 'Ubuntu'
