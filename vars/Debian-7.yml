@@ -7,3 +7,5 @@ php_packages:
    - php5-mcrypt
    - php5-mysql
    - libgd2-xpm-dev
+
+nagios_plugins_deps: ['libradiusclient-ng-dev']

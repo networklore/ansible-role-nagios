@@ -47,6 +47,6 @@
 
 - name: Install Plugin prerequisites for Ubuntu
   apt: 
-    pkg: ['libradiusclient-ng-dev'] 
+    pkg: "{{ nagios_plugin_deps }}" 
     state: present
   when: ansible_distribution == 'Ubuntu'

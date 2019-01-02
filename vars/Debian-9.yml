@@ -7,3 +7,5 @@ php_packages:
    - php-mcrypt 
    - php-mysql
    - libgd-dev
+
+nagios_plugins_deps: ['libradcli-dev']
