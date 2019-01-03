@@ -56,7 +56,7 @@
 
 - name: Check if SELinux is running and has the mode key
   set_fact: check_selinux=true
-  when: ansible_selinux != False and 'mode' in ansible_selinux.keys()
+  when: not ansible_selinux and 'mode' in ansible_selinux.keys()
 
 - name: Store selinux mode in current_selinux_mode variable
   set_fact:

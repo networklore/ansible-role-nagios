@@ -3,41 +3,41 @@
 # https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Debian
 
 - name: install apache
-  apt: 
-    pkg: ['apache2', 'openssl','unzip'] 
-    state: present 
+  apt:
+    pkg: ['apache2', 'openssl', 'unzip']
+    state: present
     update_cache: yes
 
 - name: install php
-  apt: 
-    pkg: "{{ php_packages }}" 
-    state: present 
+  apt:
+    pkg: "{{ php_packages }}"
+    state: present
     update_cache: yes
 
 - name: Install Nagios prerequisites for Ubuntu
-  apt: 
+  apt:
     pkg: ['build-essential', 'python-passlib']
     state: present
 
 - name: setup-Debian | Remove Nagios3 and check-mk-livestatus for Ubuntu
-  apt: 
+  apt:
     pkg: ['nagios3', 'nagios3-core', 'check-mk-livestatus']
     state: absent
   when: ansible_role_nagios_remove_packages
 
 - name: Install Plugin prerequisites for Debian family
-  apt: 
+  apt:
     pkg: ['libssl-dev', 'dnsutils', 'fping', 'libldap2-dev', 'libpq-dev', 'smbclient', 'gawk']
     state: present
 
 # fix SSL error when using ansible module get_url https://github.com/ansible/ansible/issues/23642
 - name: Install ansible prerequisites for Debian family
-  apt: 
+  apt:
     pkg: ['python-urllib3']
-    state: present 
+    state: present
 
 - name: Install Plugin prerequisites for Ubuntu
-  apt: 
-    pkg: "{{ nagios_plugins_deps }}" 
+  apt:
+    pkg: "{{ nagios_plugins_deps }}"
     state: present
   when: ansible_distribution == 'Ubuntu'
