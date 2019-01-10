@@ -16,7 +16,7 @@
 
 - name: Install Nagios prerequisites for Ubuntu
   apt:
-    pkg: ['build-essential', 'python-passlib']
+    pkg: ['build-essential', 'python-passlib', 'mailutils']
     state: present
 
 - name: setup-Debian | Remove Nagios3 and check-mk-livestatus for Ubuntu
