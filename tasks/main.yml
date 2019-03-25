@@ -83,6 +83,6 @@
     use_proxy: no
     dest: /tmp/nagios
     force: yes
-    url_username: "{{ item.value.user }}"
-    url_password: "{{ item.value.pass }}"
-  loop: "{{ lookup('dict', nagios_users) }}"
+    url_username: "{{ item.user }}"
+    url_password: "{{ item.pass }}"
+  loop: "{{ nagios_users|flatten(levels=1) }}" # same as with_items
