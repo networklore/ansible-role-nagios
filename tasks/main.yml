@@ -25,17 +25,17 @@
 
 - include: build-plugins.yml
 
-- name: Activate Nagios site on Ubuntu 14.04
+- name: Activate Nagios site config
   file: src=/etc/apache2/conf-available/nagios.conf dest=/etc/apache2/conf-enabled/nagios.conf state=link owner=root group=root
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+  when: ansible_os_family == 'Debian'
 
 - name: Enable CGI
   apache2_module:
     name: cgi
     state: present
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+  when: ansible_os_family == 'Debian'
 
 - name: Enable version
   file:
@@ -74,3 +74,15 @@
   service:
     name: "{{ nagios_service }}"
     state: started
+
+- meta: flush_handlers
+
+- name: test nagios site
+  get_url:
+    url: http://localhost/nagios/cgi-bin/status.cgi
+    use_proxy: no
+    dest: /tmp/nagios
+    force: yes
+    url_username: "{{ item.value.user }}"
+    url_password: "{{ item.value.pass }}"
+  loop: "{{ lookup('dict', nagios_users) }}"
