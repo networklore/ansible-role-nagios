@@ -91,6 +91,7 @@
 
 - name: Set htpasswd for gui users
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
+  no_log: true
   with_items: "{{ nagios_users }}"
 
 - name: Workaround since service module fails for this version of nagios
