@@ -85,5 +85,5 @@
     force: yes
     url_username: "{{ item.user }}"
     url_password: "{{ item.pass }}"
-  loop: "{{ nagios_users|flatten(levels=1) }}" # same as with_items
-  no_log: true # don't display secrets if not debugging
+  loop: "{{ nagios_users|flatten(levels=1) }}"
+  no_log: true

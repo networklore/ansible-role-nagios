@@ -17,18 +17,18 @@
 
 - block:
 
-  - name: read nagios installed version
-    shell: head /usr/local/nagios/share/main.php | grep "this_version" | cut -d"=" -f 2 | tr --delete ";" | tr --delete "'" | xargs echo -n
-    changed_when: false
-    register: cmd_nagios_version
-    tags:
-      - skip_ansible_lint
-    check_mode: no
+    - name: read nagios installed version
+      shell: head /usr/local/nagios/share/main.php | grep "this_version" | cut -d"=" -f 2 | tr --delete ";" | tr --delete "'" | xargs echo -n
+      changed_when: false
+      register: cmd_nagios_version
+      tags:
+        - skip_ansible_lint
+      check_mode: no
 
-  - name: Check if upgrade is required
-    set_fact:
-      nagios_upgrade_required: true
-    when: cmd_nagios_version.stdout != nagios_version
+    - name: Check if upgrade is required
+      set_fact:
+        nagios_upgrade_required: true
+      when: cmd_nagios_version.stdout != nagios_version
 
   when: nagios_mainphp_file.stat.exists
 

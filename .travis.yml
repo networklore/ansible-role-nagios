@@ -1,3 +1,4 @@
+---
 # http://www.jeffgeerling.com/blog/testing-ansible-roles-travis-ci-github
 sudo: required
 language: python
@@ -5,19 +6,19 @@ services:
   - docker
 before_install:
   - sudo apt-get -qq update
-  #- docker build --tag molecule_local/fedora-rawhide2:latest -f molecule/default/fedorar/Dockerfile molecule/default/fedorar
+  # - docker build --tag molecule_local/fedora-rawhide2:latest -f molecule/default/fedorar/Dockerfile molecule/default/fedorar
 
 install:
   - sudo apt-get install -y python-pip libssl-dev libffi-dev
   - pip install molecule
   - pip install docker-py
-    #- ansible-galaxy install -r requirements.yml
+  # - ansible-galaxy install -r requirements.yml
 
 script:
   - molecule --debug create
   - molecule converge
   - molecule syntax
-  #- molecule idempotence
+  # - molecule idempotence
 
 notifications:
-    webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
