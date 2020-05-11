@@ -33,7 +33,7 @@
 # fix SSL error when using ansible module get_url https://github.com/ansible/ansible/issues/23642
 - name: Install ansible prerequisites for Debian family
   apt:
-    pkg: ['python-urllib3']
+    pkg: ['python-urllib3', 'python3-passlib']
     state: present
 
 - name: Install Plugin prerequisites for Ubuntu
