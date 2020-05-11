@@ -2,3 +2,5 @@
 # - src: https://github.com/CoffeeITWorks/ansible-role-nagios.git
 #   version: master
 #   name: ansible-role-nagios
+
+# - src: geerlingguy.repo-epel
