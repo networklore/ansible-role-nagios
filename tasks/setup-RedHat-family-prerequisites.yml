@@ -14,13 +14,12 @@
 
 - name: setup-Redhat | install apache
   yum:
-    pkg: ['php', 'httpd', 'python3-libsemanage', 'python3-libselinux']
+    pkg: "{{ apache_packages }}"
     state: present
 
 - name: setup-Redhat | Install Nagios prerequisites for CentOS
   yum:
-    pkg: ['gcc', 'glibc', 'glibc-common', 'gd', 'gd-devel', 'make', 'perl', 'perl-devel', 'wget',
-          'python-passlib', 'unzip']
+    pkg: "{{ nagios_plugins_deps }}"
     state: present
 
 - name: setup-Redhat | Install plugin prerequisites for CentOS
