@@ -25,7 +25,7 @@ platforms:
       - use_pip_package
 
   - name: ansible_nagios4-02
-    image: "geerlingguy/docker-debian9-ansible"
+    image: "geerlingguy/docker-debian10-ansible"
     privileged: True
     command: /sbin/init
     pre_build_image: true
