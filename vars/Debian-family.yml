@@ -5,6 +5,6 @@ apache_user: www-data
 with_httpd_conf: /etc/apache2/conf-available
 php_packages: [ 'php', 'libapache2-mod-php', 'php-mcrypt', 'php-mysql', 'libgd-dev']
 
-nagios_plugins_deps: ['libradcli-dev', 'build-essential', 'python3-passlib', 'mailutils', python3-urllib3,
+nagios_plugins_deps: ['libradcli-dev', 'build-essential', 'python3-passlib', 'mailutils', 'python3-urllib3',
                       'libssl-dev', 'dnsutils', 'fping', 'libldap2-dev', 'libpq-dev', 'smbclient', 'gawk']
 # fix SSL error when using ansible module get_url https://github.com/ansible/ansible/issues/23642
