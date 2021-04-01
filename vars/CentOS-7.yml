@@ -1,5 +1,7 @@
 ---
 with_httpd_conf: /etc/httpd/conf.d
+apache_service: httpd
+apache_user: apache
 nagios_plugins_deps: ['gcc', 'glibc', 'glibc-common', 'gd', 'gd-devel', 'make', 'perl', 'perl-devel', 'wget',
                       'python-passlib', 'unzip', 'openssl-devel', 'fping', 'openldap-devel', 
                       'postgresql-devel', 'radiusclient-ng-devel', 'samba-client', 'libsmbclient']
