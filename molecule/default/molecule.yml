@@ -11,7 +11,7 @@ platforms:
 
   - name: ansible_nagios4-01
     image: "geerlingguy/docker-ubuntu1804-ansible:latest"
-    #privileged: True
+    privileged: True
     command: /sbin/init
     pre_build_image: true
     capabilities:
@@ -26,7 +26,7 @@ platforms:
 
   - name: ansible_nagios4-02
     image: "geerlingguy/docker-debian9-ansible"
-    #privileged: True
+    privileged: True
     command: /sbin/init
     pre_build_image: true
     capabilities:
@@ -47,7 +47,7 @@ platforms:
       - SYS_ADMIN
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    #privileged: True
+    privileged: True
     groups:
       - use_dev_package
 
