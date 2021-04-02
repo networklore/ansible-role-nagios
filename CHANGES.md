@@ -1,3 +1,7 @@
+### 1.2.0
+* Support centos8, removing support centos7
+* Update defaults to 4.4.6
+
 ### 1.1.5
 
 * update molecule v3 tests

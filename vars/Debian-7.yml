@@ -3,4 +3,6 @@ with_httpd_conf: /etc/apache2/conf-available
 
 php_packages: [ 'php5-gd', 'libapache2-mod-php5', 'php5-mcrypt', 'php5-mysql', 'libgd2-xpm-dev' ]
 
-nagios_plugins_deps: ['libradiusclient-ng-dev']
+nagios_plugins_deps: ['libradiusclient-ng-dev', 'build-essential', 'mailutils']
+nagios_plugins_deps: ['libradcli-dev', 'build-essential', 'python-passlib', 'mailutils', python-urllib3,
+                      'libssl-dev', 'dnsutils', 'fping', 'libldap2-dev', 'libpq-dev', 'smbclient', 'gawk']
