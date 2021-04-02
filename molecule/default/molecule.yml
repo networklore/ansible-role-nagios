@@ -1,0 +1,58 @@
+---
+# dependency:
+# name: galaxy
+#  options:
+#    ignore-certs: True
+#    ignore-errors: True
+#    role-file: requirements.yml  # this file is at the root of the git project same place as molecule is executed
+driver:
+  name: docker
+platforms:
+
+  - name: ansible_nagios4-01
+    image: "geerlingguy/docker-ubuntu1804-ansible:latest"
+    privileged: True
+    command: /sbin/init
+    pre_build_image: true
+    capabilities:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    groups:
+      - use_pip_package
+
+  - name: ansible_nagios4-02
+    image: "geerlingguy/docker-debian10-ansible"
+    privileged: True
+    command: /sbin/init
+    pre_build_image: true
+    capabilities:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    groups:
+      - use_pip_package
+
+  - name: ansible_nagios4-03
+    image: geerlingguy/docker-centos8-ansible
+    pre_build_image: true
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    privileged: True
+    groups:
+      - use_dev_package
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      callback_whitelist: profile_tasks

@@ -15,25 +15,25 @@
   stat: path=/usr/local/nagios/share/main.php
   register: nagios_mainphp_file
 
-- block: 
+- block:
 
-  - name: read nagios installed version
-    shell: head /usr/local/nagios/share/main.php | grep "this_version" | cut -d"=" -f 2 | tr --delete ";" | tr --delete "'" | xargs echo -n
-    changed_when: false
-    register: cmd_nagios_version
-    tags:
-      - skip_ansible_lint
-    check_mode: no
-  
-  - name: Check if upgrade is required
-    set_fact:
-      nagios_upgrade_required: true
-    when: cmd_nagios_version.stdout != nagios_version
-  
+    - name: read nagios installed version
+      shell: head /usr/local/nagios/share/main.php | grep "this_version" | cut -d"=" -f 2 | tr --delete ";" | tr --delete "'" | xargs echo -n
+      changed_when: false
+      register: cmd_nagios_version
+      tags:
+        - skip_ansible_lint
+      check_mode: no
+
+    - name: Check if upgrade is required
+      set_fact:
+        nagios_upgrade_required: true
+      when: cmd_nagios_version.stdout != nagios_version
+
   when: nagios_mainphp_file.stat.exists
 
 - name: backup files before clean
-  copy: 
+  copy:
     src: "{{ item }}"
     dest: "{{ item }}.bkp"
     force: yes
@@ -49,7 +49,7 @@
   failed_when: false
 
 - name: Clean files before upgrade
-  file: 
+  file:
     path: "{{ item }}"
     state: absent
   with_items:
@@ -91,6 +91,7 @@
 
 - name: Set htpasswd for gui users
   htpasswd: path=/usr/local/nagios/etc/htpasswd.users name={{ item.user }} password={{ item.pass }} state=present
+  no_log: true
   with_items: "{{ nagios_users }}"
 
 - name: Workaround since service module fails for this version of nagios

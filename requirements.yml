@@ -1,4 +1,0 @@
-# from GitHub, overriding the name and specifying a specific tag
-#- src: https://github.com/CoffeeITWorks/ansible-role-nagios.git
-#  version: master
-#  name: ansible-role-nagios
