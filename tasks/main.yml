@@ -4,12 +4,14 @@
 - name: Ensure download directory is present
   file: path={{ download_dir }} state=directory
 
-- include: load-variables.yml
+- include_vars: load-variables.yml
 
-- include: "setup-RedHat-family-prerequisites.yml"
+- name: Setup RedHat
+  include_tasks: "setup-RedHat-family-prerequisites.yml"
   when: ansible_os_family == 'RedHat'
 
-- include: setup-Debian-family-prerequisites.yml
+- name: Setup Debian
+  include_tasks: setup-Debian-family-prerequisites.yml
   when: ansible_os_family == 'Debian'
 
 - name: Create nagcmd group
@@ -21,9 +23,11 @@
 - name: Add apache user to nagcmd group
   user: name={{ apache_user }} state=present groups={{ monitoring_command_group }}
 
-- include: build-nagios.yml
+- name: Build Nagios
+  include_tasks: build-nagios.yml
 
-- include: build-plugins.yml
+- name: Build Plugins
+  include_tasks: build-plugins.yml
 
 - name: Activate Nagios site config
   file: src=/etc/apache2/conf-available/nagios.conf dest=/etc/apache2/conf-enabled/nagios.conf state=link owner=root group=root
