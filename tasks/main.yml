@@ -2,7 +2,9 @@
 # tasks file for nagios
 
 - name: Ensure download directory is present
-  file: path={{ download_dir }} state=directory
+  file:
+    path: "{{ download_dir }} "
+    state: directory
 
 - include_vars: load-variables.yml
 
@@ -15,10 +17,15 @@
   when: ansible_os_family == 'Debian'
 
 - name: Create nagcmd group
-  group: name={{ monitoring_command_group }} state=present
+  group:
+    name: "{{ monitoring_command_group }} "
+    state: present
 
 - name: Create nagios user
-  user: name={{ monitoring_user }} state=present groups={{ monitoring_command_group }}
+  user:
+    name: "{{ monitoring_user }}"
+    state: present
+    groups: "{{ monitoring_command_group }}"
 
 - name: Add apache user to nagcmd group
   user: name={{ apache_user }} state=present groups={{ monitoring_command_group }}
