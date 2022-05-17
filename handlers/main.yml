@@ -1,11 +1,12 @@
 ---
 # handlers file for nagios
 - name: restart apache
-  service:
+  ansible.builtin.systemd:
     name: "{{ apache_service }}"
     state: restarted
 
 - name: restart nagios
-  service:
+  ansible.builtin.systemd:
     name: nagios
     state: restarted
+    daemon_reload: yes
