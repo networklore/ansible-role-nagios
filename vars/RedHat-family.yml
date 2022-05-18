@@ -2,7 +2,24 @@
 apache_service: httpd
 apache_user: apache
 with_httpd_conf: /etc/httpd/conf.d
-nagios_plugins_deps: ['gcc', 'glibc', 'glibc-common', 'gd', 'gd-devel', 'make', 'perl', 'perl-devel', 'wget',
-          'python3-passlib', 'unzip', 'openssl-devel', 'fping', 'openldap-devel', 'postgresql-devel', 'samba-client', 
-          'libsmbclient']
-apache_packages: ['php', 'httpd', 'python3-libsemanage', 'python3-libselinux']
+nagios_plugins_deps:
+  [
+    "gcc",
+    "glibc",
+    "glibc-common",
+    "gd",
+    "gd-devel",
+    "make",
+    "perl",
+    "perl-devel",
+    "wget",
+    "python3-passlib",
+    "unzip",
+    "openssl-devel",
+    "fping",
+    "openldap-devel",
+    "postgresql-devel",
+    "samba-client",
+    "libsmbclient",
+  ]
+apache_packages: ["php", "httpd", "python3-libsemanage", "python3-libselinux"]
