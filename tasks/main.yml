@@ -2,40 +2,51 @@
 # tasks file for nagios
 
 - name: Ensure download directory is present
-  file: path={{ download_dir }} state=directory
+  file:
+    path: "{{ download_dir }} "
+    state: directory
 
-- include: load-variables.yml
+- include_vars: load-variables.yml
 
-- include: "setup-RedHat-family-prerequisites.yml"
+- name: Setup RedHat
+  include_tasks: "setup-RedHat-family-prerequisites.yml"
   when: ansible_os_family == 'RedHat'
 
-- include: setup-Debian-family-prerequisites.yml
+- name: Setup Debian
+  include_tasks: setup-Debian-family-prerequisites.yml
   when: ansible_os_family == 'Debian'
 
 - name: Create nagcmd group
-  group: name={{ monitoring_command_group }} state=present
+  group:
+    name: "{{ monitoring_command_group }} "
+    state: present
 
 - name: Create nagios user
-  user: name={{ monitoring_user }} state=present groups={{ monitoring_command_group }}
+  user:
+    name: "{{ monitoring_user }}"
+    state: present
+    groups: "{{ monitoring_command_group }}"
 
 - name: Add apache user to nagcmd group
   user: name={{ apache_user }} state=present groups={{ monitoring_command_group }}
 
-- include: build-nagios.yml
+- name: Build Nagios
+  include_tasks: build-nagios.yml
 
-- include: build-plugins.yml
+- name: Build Plugins
+  include_tasks: build-plugins.yml
 
-- name: Activate Nagios site on Ubuntu 14.04
+- name: Activate Nagios site config
   file: src=/etc/apache2/conf-available/nagios.conf dest=/etc/apache2/conf-enabled/nagios.conf state=link owner=root group=root
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+  when: ansible_os_family == 'Debian'
 
 - name: Enable CGI
   apache2_module:
     name: cgi
     state: present
   notify: restart apache
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+  when: ansible_os_family == 'Debian'
 
 - name: Enable version
   file:
@@ -56,7 +67,7 @@
 
 - name: Check if SELinux is running and has the mode key
   set_fact: check_selinux=true
-  when: ansible_selinux != False and 'mode' in ansible_selinux.keys()
+  when: not ansible_selinux and 'mode' in ansible_selinux.keys()
 
 - name: Store selinux mode in current_selinux_mode variable
   set_fact:
@@ -69,3 +80,21 @@
 
 - name: http service state
   service: name={{ apache_service }} state=started enabled=yes
+
+- name: ensure nagios is started
+  service:
+    name: "{{ nagios_service }}"
+    state: started
+
+- meta: flush_handlers
+
+- name: test nagios site
+  get_url:
+    url: http://localhost/nagios/cgi-bin/status.cgi
+    use_proxy: no
+    dest: /tmp/nagios
+    force: yes
+    url_username: "{{ item.user }}"
+    url_password: "{{ item.pass }}"
+  loop: "{{ nagios_users|flatten(levels=1) }}"
+  no_log: true
